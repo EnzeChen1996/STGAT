@@ -27,12 +27,12 @@ parser.add_argument("--log_dir", default="./", help="Directory containing loggin
 parser.add_argument("--dataset_name", default="zara2", type=str)
 parser.add_argument("--delim", default="\t")
 parser.add_argument("--loader_num_workers", default=4, type=int)
-parser.add_argument("--obs_len", default=8, type=int)
-parser.add_argument("--pred_len", default=12, type=int)
+parser.add_argument("--obs_len", default=25, type=int)
+parser.add_argument("--pred_len", default=25, type=int)
 parser.add_argument("--skip", default=1, type=int)
 
 parser.add_argument("--seed", type=int, default=72, help="Random seed.")
-parser.add_argument("--batch_size", default=64, type=int)
+parser.add_argument("--batch_size", default=180, type=int)
 parser.add_argument("--num_epochs", default=400, type=int)
 
 parser.add_argument("--noise_dim", default=(16,), type=int_tuple)
@@ -110,8 +110,9 @@ def main(args):
 
     os.environ["CUDA_VISIBLE_DEVICES"] = args.gpu_num
     train_path = get_dset_path(args.dataset_name, "train")
+    train_path = "C:\\idpined\\train"
     val_path = get_dset_path(args.dataset_name, "test")
-
+    val_path = "C:\\idpined\\val"
     logging.info("Initializing train dataset")
     train_dset, train_loader = data_loader(args, train_path)
     logging.info("Initializing val dataset")
@@ -169,6 +170,7 @@ def main(args):
             logging.info("=> no checkpoint found at '{}'".format(args.resume))
 
     training_step = 1
+    args.start_epoch = 250
     for epoch in range(args.start_epoch, args.num_epochs + 1):
         if epoch < 150:
             training_step = 1
